@@ -13,22 +13,22 @@ CREATE TABLE `blocked` (
   `ip_first` int(10) unsigned DEFAULT NULL,
   `ip_last` int(10) unsigned DEFAULT NULL,
   `length` int(11) DEFAULT NULL,
-  `date` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gos_organ` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `postanovlenie` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `page` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `decision_date` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `decision_org` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `decision_num` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `domain` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   KEY `ip_first` (`ip_first`),
   KEY `ip_last` (`ip_last`),
-  KEY `link` (`link`(191)),
-  KEY `page` (`page`(191))
+  KEY `domain` (`domain`(191)),
+  KEY `url` (`url`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `checks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `query` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `host` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `domain` varchar(1024) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ips` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_blocked` int(11) DEFAULT NULL,
   `blocks` varchar(4096) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
