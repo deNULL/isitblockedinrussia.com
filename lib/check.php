@@ -66,6 +66,10 @@
     $blocks = array();
 
     $host = getHost($host);
+    if ($host === false) {
+      return array('error' => 2, 'error_desc' => 'Unknown format');
+    }
+    
     $isIP4 = filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     if ($isIP4 !== false) {
       $ips = array($host);

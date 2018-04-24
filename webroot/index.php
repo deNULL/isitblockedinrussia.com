@@ -45,6 +45,9 @@
       'ip6_prefix' => 'No, ',
       'ip6_suffix' => ' is an IPv6 address, and they are not blocked in Russia. Yet.',
 
+      'unknown_prefix' => '',
+      'unknown_suffix' => ' is not a valid URL. Please enter a valid domain name or IP address.',
+
       'invalid_prefix' => 'Unable to resolve ',
       'invalid_suffix' => '. Please enter a valid domain name or IP address.',
 
@@ -77,6 +80,9 @@
 
       'ip6_prefix' => 'Нет, ',
       'ip6_suffix' => ' — это адрес IPv6, а они не блокируются в России. Пока.',
+
+      'unknown_prefix' => '',
+      'unknown_suffix' => ' не является корректным URL. Пожалуйста, введите домен или IP-адрес.',
 
       'invalid_prefix' => 'Не удалось определить адрес ',
       'invalid_suffix' => '. Пожалуйста, введите корректный домен или IP-адрес.',
@@ -170,7 +176,8 @@
 
         <div v-if="checked && results" v-cloak>
           <div v-if="results.error">
-            <h2 class="uk-h2 uk-text-success"><?= $lang['ip6_prefix'] ?><b>{{ host }}</b><?= $lang['ip6_suffix'] ?></h2>
+            <h2 class="uk-h2 uk-text-success" v-if="results.error == 1"><?= $lang['ip6_prefix'] ?><b>{{ host }}</b><?= $lang['ip6_suffix'] ?></h2>
+            <h2 class="uk-h2 uk-text-success" v-else><?= $lang['unknown_prefix'] ?><b>{{ host }}</b><?= $lang['unknown_suffix'] ?></h2>
           </div>
           <div v-else>
             <h2 class="uk-h2 uk-text-danger" v-if="totallyBlocked"><?= $lang['yes_prefix'] ?><b>{{ host }}</b><?= $lang['yes_suffix'] ?></h2>
