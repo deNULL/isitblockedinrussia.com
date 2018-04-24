@@ -1,8 +1,8 @@
 # isitblockedinrussia.com
 
-This is the source code of isitblockedinrussia.com — a service for checking if a domain or an IP address is currently blocked in Russia. Feel free to reuse it.
+This is the source code of [isitblockedinrussia.com](https://isitblockedinrussia.com) — a service for checking if a domain or an IP address is currently blocked in Russia. Feel free to reuse it.
 
-== Usage
+# Usage
 
 Information about blocked resourced is downloaded from https://github.com/zapret-info/z-i and stored to MySQL database locally.
 
