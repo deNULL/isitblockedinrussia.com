@@ -4,7 +4,7 @@ This is the source code of [isitblockedinrussia.com](https://isitblockedinrussia
 
 # Usage
 
-Information about blocked resourced is downloaded from https://github.com/zapret-info/z-i and stored to MySQL database locally.
+Information about blocked resources is downloaded from https://github.com/zapret-info/z-i and stored to MySQL database locally.
 
 Install MySQL and create following tables:
 ```mysql
