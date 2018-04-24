@@ -107,9 +107,21 @@
         'blocked' => array(),
       );
 
-      $result = $db->query("SELECT * FROM blocked WHERE domain = '" . $db->escape_string($domain) . "' OR url = '" . $db->escape_string($url) . "'");
+      $parts = explode('.', $domain);
+      $raw_domains = array($domain);
+      $domains = array("'" . $db->escape_string($domain) . "'");
+      for ($i = 0; $i < count($parts) - 1; $i++) {
+        $wildcard = '*.' . implode('.', array_slice($parts, $i));
+        $raw_domains[] = $wildcard;
+        $domains[] = "'" . $db->escape_string($wildcard) . "'";
+      }
+
+      $result = $db->query("SELECT * FROM blocked WHERE " .
+        "domain IN (" . implode(", ", $domains) . ") OR " .
+        "url = '" . $db->escape_string($url) . "'");
+
       while ($row = $result->fetch_assoc()) {
-        if ($row['domain'] == $domain) {
+        if (in_array($row['domain'], $raw_domains)) {
           $response['domain']['blocked'][] = $row;
         }
         if ($row['url'] == $url) {

@@ -172,10 +172,11 @@
           <div v-if="results.error">
             <h2 class="uk-h2 uk-text-success"><?= $lang['ip6_prefix'] ?><b>{{ host }}</b><?= $lang['ip6_suffix'] ?></h2>
           </div>
-          <div v-else-if="results.ips.length">
+          <div v-else>
             <h2 class="uk-h2 uk-text-danger" v-if="totallyBlocked"><?= $lang['yes_prefix'] ?><b>{{ host }}</b><?= $lang['yes_suffix'] ?></h2>
             <h2 class="uk-h2 uk-text-warning" v-else-if="partiallyBlocked"><?= $lang['maybe_prefix'] ?><b>{{ host }}</b><?= $lang['maybe_suffix'] ?></h2>
             <h2 class="uk-h2 uk-text-success" v-else><?= $lang['no_prefix'] ?><b>{{ host }}</b><?= $lang['no_suffix'] ?></h2>
+
 
             <h4 class="uk-heading-line"><span><?= $lang['details'] ?></span></h4>
 
@@ -205,7 +206,7 @@
                     {{ results.domain.value }}
                     <div v-for="block in results.domain.blocked" class="uk-alert uk-alert-danger">
                       <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
+                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
                     </div>
                   </td>
                 </tr>
@@ -220,15 +221,19 @@
 
                     <div v-for="block in ip.blocked" class="uk-alert uk-alert-danger">
                       <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
+                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
                     </div>
+                  </td>
+                </tr>
+                <tr v-if="!results.ips.length">
+                  <td valign="top"><b>IP</b></td>
+                  <td valign="top"></td>
+                  <td valign="top">
+                    <b class="uk-text-warning"><?= $lang['invalid_prefix'] ?><b>{{ host }}</b><?= $lang['invalid_suffix'] ?></b>
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div v-else>
-            <h2 class="uk-h2 uk-text-danger">Unable to resolve <b>{{ host }}</b>. Please enter a valid domain name or IP address.</h2>
           </div>
         </div>
       </div>
