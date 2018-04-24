@@ -8,7 +8,7 @@
   require_once(__ROOT__.'/lib/common.php');
 
   mb_internal_encoding("UTF-8");
-  $db = new mysqli($db_host, $db_user, $db_pass, 'telegram');
+  $db = new mysqli($db_host, $db_user, $db_pass, $db_name);
   $db->query("SET CHARACTER SET 'utf8mb4'");
   $db->query("SET collation_connection = 'utf8mb4_unicode_ci'");
   $db->query("SET NAMES 'utf8mb4_unicode_ci'");

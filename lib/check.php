@@ -41,7 +41,7 @@
   }
  
   function checkHost($query) {
-    global $db, $db_host, $db_user, $db_pass, $equiv, $hardcoded;
+    global $db, $db_host, $db_user, $db_pass, $db_name, $equiv, $hardcoded;
 
     $host = strtolower($query);
     if (empty($host)) {
@@ -54,7 +54,7 @@
       return array('error' => 1, 'error_desc' => 'IPv6 addresses are unsupported');
     }
 
-    $db = new mysqli($db_host, $db_user, $db_pass, 'telegram');
+    $db = new mysqli($db_host, $db_user, $db_pass, $db_name);
     $db->query("SET CHARACTER SET 'utf8mb4'");
     $db->query("SET collation_connection = 'utf8mb4_unicode_ci'");
     $db->query("SET NAMES 'utf8mb4_unicode_ci'");
