@@ -3,12 +3,12 @@
   ini_set('display_errors', true);
   error_reporting(E_ALL);
 
-  define('__ROOT__', dirname(__FILE__) . '/..');
+  define('__ROOT__', dirname(__FILE__) . '/../..');
   require_once(__ROOT__.'/config/mysql.php');
   require_once(__ROOT__.'/lib/common.php');
 
   mb_internal_encoding("UTF-8");
-  $db = new mysqli($db_host, $db_user, $db_pass, $db_name);
+  $db = new mysqli($db_host, $db_user, $db_pass, 'telegram');
   $db->query("SET CHARACTER SET 'utf8mb4'");
   $db->query("SET collation_connection = 'utf8mb4_unicode_ci'");
   $db->query("SET NAMES 'utf8mb4_unicode_ci'");
@@ -30,15 +30,15 @@
     }
 
     $ips = explode(' | ', $components[0]);
-    $link = $components[1];
-    $page = $components[2];
-    $gos_organ = mb_convert_encoding($components[3], 'utf-8', 'windows-1251');
-    $postanovlenie = mb_convert_encoding($components[4], 'utf-8', 'windows-1251');
-    $date = $components[5];
+    $domain = $components[1];
+    $url = $components[2];
+    $decision_org = mb_convert_encoding($components[3], 'utf-8', 'windows-1251');
+    $decision_num = mb_convert_encoding($components[4], 'utf-8', 'windows-1251');
+    $decision_date = $components[5];
 
     foreach ($ips as $j => $ip) {
       if (trim($ip) == '') {
-        $ip = $link;
+        $ip = $domain;
       }
       $pair = explode('/', $ip);
       $ipFirst = ip2long($pair[0]);
@@ -54,11 +54,11 @@
         'ip_first' => $ipFirst,
         'ip_last' => $ipLast,
         'length' => $length,
-        'date' => $date,
-        'gos_organ' => $gos_organ,
-        'postanovlenie' => $postanovlenie,
-        'link' => $link,
-        'page' => $page,
+        'decision_date' => $decision_date,
+        'decision_org' => $decision_org,
+        'decision_num' => $decision_num,
+        'domain' => $domain,
+        'url' => $url,
       );
 
       if (count($inserts) == 10000) {

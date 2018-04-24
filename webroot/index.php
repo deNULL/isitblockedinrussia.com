@@ -49,6 +49,7 @@
       'invalid_suffix' => '. Please enter a valid domain name or IP address.',
 
       'details' => 'Details:',
+      'domain' => 'Domain',
 
       'date_prefix' => 'Blocked on ',
       'decision_prefix' => 'Decision ',
@@ -56,8 +57,8 @@
       'ip_prefix' => 'This block affects IP',
       'ip_plural' => 's',
       'and' => ' and ',
-      'host_prefix' => 'hostname',
-      'host_plural' => 's',
+      'domain_prefix' => 'domain',
+      'domain_plural' => 's',
       'url_prefix' => 'URL',
       'url_singular' => '',
       'url_plural' => 's',
@@ -81,6 +82,7 @@
       'invalid_suffix' => '. Пожалуйста, введите корректный домен или IP-адрес.',
 
       'details' => 'Подробности:',
+      'domain' => 'Домен',
 
       'date_prefix' => 'Заблокировано ',
       'decision_prefix' => 'Решение ',
@@ -88,8 +90,8 @@
       'ip_prefix' => 'Эта блокировка затрагивает IP-адрес',
       'ip_plural' => 'а',
       'and' => ' и ',
-      'host_prefix' => 'хост',
-      'host_plural' => 'ы',
+      'domain_prefix' => 'домен',
+      'domain_plural' => 'ы',
       'url_prefix' => 'ссылк',
       'url_singular' => 'у',
       'url_plural' => 'и',
@@ -188,22 +190,22 @@
                   <td valign="top">
                     {{ results.url.value }}
                     <div v-for="block in results.url.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.postanovlenie }}</b><?= $lang['decision_department'] ?><b>{{ block.gos_organ }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.links.length">{{ block.pages.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.links.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.links.join(', ') }}</b></span><span v-if="block.pages.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.pages.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.pages.join(', ') }}</b></span>.</p>
+                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
+                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
                     </div>
                   </td>
                 </tr>
-                <tr v-if="results.host">
-                  <td valign="top" style="width: 100px"><b>Hostname</b></td>
+                <tr v-if="results.domain">
+                  <td valign="top" style="width: 100px"><b><?= $lang['domain'] ?></b></td>
                   <td valign="top">
-                    <span v-if="results.host.blocked.length"><i class="uk-text-danger fas fa-times-circle"></i></span>
+                    <span v-if="results.domain.blocked.length"><i class="uk-text-danger fas fa-times-circle"></i></span>
                     <span v-else><i class="uk-text-success fas fa-check-circle"></i></span>
                   </td>
                   <td valign="top">
-                    {{ results.host.value }}
-                    <div v-for="block in results.host.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.postanovlenie }}</b><?= $lang['decision_department'] ?><b>{{ block.gos_organ }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.links.length">{{ block.pages.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.links.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.links.join(', ') }}</b></span><span v-if="block.pages.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.pages.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.pages.join(', ') }}</b></span>.</p>
+                    {{ results.domain.value }}
+                    <div v-for="block in results.domain.blocked" class="uk-alert uk-alert-danger">
+                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
+                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
                     </div>
                   </td>
                 </tr>
@@ -217,8 +219,8 @@
                     {{ ip.value }}
 
                     <div v-for="block in ip.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.postanovlenie }}</b><?= $lang['decision_department'] ?><b>{{ block.gos_organ }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.links.length">{{ block.pages.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.links.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.links.join(', ') }}</b></span><span v-if="block.pages.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.pages.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.pages.join(', ') }}</b></span>.</p>
+                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
+                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['host_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['host_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
                     </div>
                   </td>
                 </tr>
@@ -264,7 +266,7 @@ var app = new Vue({
       if (!this.results) {
         return false
       }
-      if (this.results.host && this.results.host.blocked.length) {
+      if (this.results.domain && this.results.domain.blocked.length) {
         return true
       }
       for (var i = 0; i < this.results.ips.length; i++) {
@@ -282,7 +284,7 @@ var app = new Vue({
         return true
       }
       /*
-      if (this.results.host && this.results.host.blocked.length) {
+      if (this.results.domain && this.results.domain.blocked.length) {
         return true
       }
       */

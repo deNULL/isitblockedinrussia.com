@@ -9,28 +9,28 @@
     $merged = array();
     $map = array();
     foreach ($list as $i => $row) {
-      $id = $row['gos_organ'] . ';' . $row['postanovlenie'] . ';' . $row['date'];
+      $id = $row['decision_org'] . ';' . $row['decision_num'] . ';' . $row['decision_date'];
       if (!empty($map[$id])) {
         $group = $map[$id];
       } else {
         $group = array(
-          'gos_organ' => $row['gos_organ'],
-          'postanovlenie' => $row['postanovlenie'],
-          'date' => $row['date'],
+          'decision_org' => $row['decision_org'],
+          'decision_num' => $row['decision_num'],
+          'decision_date' => $row['decision_date'],
           'ips' => array(),
-          'links' => array(),
-          'pages' => array(),
+          'domains' => array(),
+          'urls' => array(),
         );
       }
 
       if ($row['ip'] && !in_array($row['ip'], $group['ips'])) {
         $group['ips'][] = $row['ip'];
       }
-      if ($row['link'] && !in_array($row['link'], $group['links'])) {
-        $group['links'][] = $row['link'];
+      if ($row['domain'] && !in_array($row['domain'], $group['domains'])) {
+        $group['domains'][] = $row['domain'];
       }
-      if ($row['page'] && !in_array($row['page'], $group['pages'])) {
-        $group['pages'][] = $row['page'];
+      if ($row['url'] && !in_array($row['url'], $group['urls'])) {
+        $group['urls'][] = $row['url'];
       }
       $map[$id] = $group;
     }
@@ -43,11 +43,11 @@
   function checkHost($query) {
     global $db, $db_host, $db_user, $db_pass, $db_name, $equiv, $hardcoded;
 
+    $url = $query;
     $host = strtolower($query);
     if (empty($host)) {
       exit();
     }
-    $exact = $query;
 
     $isIP6 = filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
     if ($isIP6 !== false) {
@@ -69,49 +69,50 @@
     $isIP4 = filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
     if ($isIP4 !== false) {
       $ips = array($host);
-      $hname = gethostbyaddr($host);
-      if ($hname != $host) {
-        $response['host'] = array(
-          'value' => $hname,
+      $domain = gethostbyaddr($host);
+      if ($domain != $host) {
+        $response['domain'] = array(
+          'value' => $domain,
           'blocked' => array(),
         );
       }
 
       $response['url'] = array(
-        'value' => 'http://' . $hname,
+        'value' => 'http://' . $domain,
         'blocked' => array(),
       );
     } else {
+      $domain = $host;
       //print_r($url);
       //$host = parse_url($host, PHP_URL_HOST);
 
-      $response['host'] = array(
-        'value' => $host,
+      $response['domain'] = array(
+        'value' => $domain,
         'blocked' => array(),
       );
 
-      if (filter_var($exact, FILTER_VALIDATE_URL) === false) {
-        $exact = 'http://' . $exact;
-        if (filter_var($exact, FILTER_VALIDATE_URL) === false) {
-          $exact = 'http://' . $host . '/';
+      if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        $url = 'http://' . $url;
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+          $url = 'http://' . $domain . '/';
         }
       } else {
         $exact_scheme = parse_url($exact, PHP_URL_SCHEME);
         if (!$exact_scheme) {
-          $exact = 'http://' . $exact;
+          $url = 'http://' . $url;
         }
       }
       $response['url'] = array(
-        'value' => $exact,
+        'value' => $url,
         'blocked' => array(),
       );
 
-      $result = $db->query("SELECT * FROM blocked WHERE link = '" . $db->escape_string($host) . "' OR page = '" . $db->escape_string($exact) . "'");
+      $result = $db->query("SELECT * FROM blocked WHERE domain = '" . $db->escape_string($domain) . "' OR url = '" . $db->escape_string($url) . "'");
       while ($row = $result->fetch_assoc()) {
-        if ($row['link'] == $host) {
-          $response['host']['blocked'][] = $row;
+        if ($row['domain'] == $domain) {
+          $response['domain']['blocked'][] = $row;
         }
-        if ($row['page'] == $exact) {
+        if ($row['url'] == $url) {
           $response['url']['blocked'][] = $row;
         }
         //$response['blocked'][] = $row;
@@ -164,8 +165,8 @@
     if (!empty($response['url'])) {
       $response['url']['blocked'] = mergeDecisions($response['url']['blocked']);
     }
-    if (!empty($response['host'])) {
-      $response['host']['blocked'] = mergeDecisions($response['host']['blocked']);
+    if (!empty($response['domain'])) {
+      $response['domain']['blocked'] = mergeDecisions($response['domain']['blocked']);
     }
 
     foreach ($ips as $i => $ip) {
@@ -186,8 +187,8 @@
 
     insertInto('checks', array(
       'query' => $query,
-      'url' => $exact,
-      'host' => $host,
+      'url' => $url,
+      'domain' => $domain,
       'ips' => implode(',', $ips),
       'is_blocked' => (count($blocks) > 0) ? 1 : 0,
       'blocks' => json_encode($blocks),
