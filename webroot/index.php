@@ -137,27 +137,119 @@
     <meta property="twitter:title" content="<?= $lang['title'] ?>">
     <meta property="twitter:image" content="https://vk.com/images/gift/952/512.png">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/css/uikit.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
-    <style>
-      [v-cloak] {
-        display: none;
-      }
-      .uk-h2 b {
-        word-wrap: break-word;
-      }
-      .loader {
-        text-align: center;
-      }
-      .loader span {
-        display: inline-block;
-        margin: 20px auto;
-      }
+<style>
+body {
+  margin: 0;
+}
+html {
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  background: #fff;
+  color: #666;
+}
+[v-cloak] {
+  display: none;
+}
+.uk-h2 b {
+  word-wrap: break-word;
+}
+.loader {
+  text-align: center;
+}
+.loader span {
+  display: inline-block;
+  margin: 20px auto;
+}
+.uk-heading-primary {
+  font-size: 2.625rem;
+  line-height: 1.2;
+}
+h1, .uk-h1, h2, .uk-h2, h3, .uk-h3, h4, .uk-h4, h5, .uk-h5, h6, .uk-h6 {
+  margin: 0 0 20px 0;
+  font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: normal;
+  color: #333;
+  text-transform: none;
+}
+.uk-section > :last-child {
+  margin-bottom: 0;
+}
+@media (min-width: 640px) {
+  .uk-container {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+.uk-container {
+  box-sizing: content-box;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.uk-section {
+  box-sizing: border-box;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.uk-input, .uk-select, .uk-textarea, .uk-radio, .uk-checkbox {
+  box-sizing: border-box;
+  margin: 0;
+  border-radius: 0;
+  font: inherit;
+}
+.uk-input, .uk-select:not([multiple]):not([size]) {
+  height: 40px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.uk-input, .uk-select, .uk-textarea {
+  max-width: 100%;
+  width: 100%;
+  border: 0 none;
+  padding: 0 10px;
+  background: #fff;
+  color: #666;
+  border: 1px solid #e5e5e5;
+  transition: 0.2s ease-in-out;
+  transition-property: color, background-color, border;
+}
+.uk-input, .uk-textarea {
+  -webkit-appearance: none;
+}
+.uk-input {
+  overflow: visible;
+}
+a, area, button, input, label, select, summary, textarea {
+  touch-action: manipulation;
+}
+.uk-form-large {
+  font-size: 1.25rem;
+}
+.uk-form-large:not(textarea):not([multiple]):not([size]) {
+  height: 55px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+@media (min-width: 960px) {
+  .uk-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .uk-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+  .uk-heading-primary {
+    font-size: 3.75rem;
+    line-height: 1.1;
+  }
+}
     </style>
   </head>
   <body>
@@ -244,6 +336,11 @@
     <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
   </div>
 </script>
+<script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
 <script type="text/javascript">
 
 function debounce(func, wait, immediate) {
@@ -366,7 +463,24 @@ window.onpopstate = function(event) {
     app.performCheck()
   }
 }
-    </script>
+</script>
+<noscript id="deferred-styles">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/css/uikit.min.css" rel="stylesheet" type="text/css"/>
+</noscript>
+<script>
+  var loadDeferredStyles = function() {
+    var addStylesNode = document.getElementById("deferred-styles");
+    var replacement = document.createElement("div");
+    replacement.innerHTML = addStylesNode.textContent;
+    document.body.appendChild(replacement)
+    addStylesNode.parentElement.removeChild(addStylesNode);
+  };
+  var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+  else window.addEventListener('load', loadDeferredStyles);
+</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
     (function (d, w, c) {
