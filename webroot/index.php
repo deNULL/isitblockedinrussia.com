@@ -54,9 +54,9 @@
       'details' => 'Details:',
       'domain' => 'Domain',
 
-      'date_prefix' => 'Blocked on ',
       'decision_prefix' => 'Decision ',
-      'decision_department' => ' made by ',
+      'decision_date' => ' made on ',
+      'decision_org' => ' by ',
       'ip_prefix' => 'This block affects IP',
       'ip_plural' => 's',
       'and' => ' and ',
@@ -90,9 +90,10 @@
       'details' => 'Подробности:',
       'domain' => 'Домен',
 
-      'date_prefix' => 'Заблокировано ',
-      'decision_prefix' => 'Решение ',
-      'decision_department' => ', орган: ',
+      'decision_prefix' => 'Заблокировано по решению ',
+      'decision_date' => ' от ',
+      'decision_org' => ', орган: ',
+
       'ip_prefix' => 'Эта блокировка затрагивает IP-адрес',
       'ip_plural' => 'а',
       'and' => ' и ',
@@ -197,10 +198,7 @@
                   </td>
                   <td valign="top">
                     {{ results.url.value }}
-                    <div v-for="block in results.url.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
-                    </div>
+                    <block-details v-for="block in results.url.blocked" :block="block"></block-details>
                   </td>
                 </tr>
                 <tr v-if="results.domain">
@@ -211,10 +209,7 @@
                   </td>
                   <td valign="top">
                     {{ results.domain.value }}
-                    <div v-for="block in results.domain.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
-                    </div>
+                    <block-details v-for="block in results.domain.blocked" :block="block"></block-details>
                   </td>
                 </tr>
                 <tr v-for="ip in results.ips">
@@ -223,13 +218,9 @@
                     <span v-if="ip.blocked.length"><i class="uk-text-danger fas fa-times-circle"></i></span>
                     <span v-else><i class="uk-text-success fas fa-check-circle"></i></span>
                   </td>
-                  <td valign="top">
+                  <td valign="top"> 
                     {{ ip.value }}
-
-                    <div v-for="block in ip.blocked" class="uk-alert uk-alert-danger">
-                      <h5><?= $lang['date_prefix'] ?><b>{{ block.decision_date }}</b>. <?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_department'] ?><b>{{ block.decision_org }}</b>.</h5>
-                      <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
-                    </div>
+                    <block-details v-for="block in ip.blocked" :block="block"></block-details>
                   </td>
                 </tr>
                 <tr v-if="!results.ips.length">
@@ -246,8 +237,14 @@
       </div>
     </div>
 
-    <script type="text/javascript">
-
+<script type="text/x-template" id="block-info-template">
+  <div class="uk-alert uk-alert-danger">
+    <h5><?= $lang['decision_prefix'] ?><b>{{ block.decision_num }}</b><?= $lang['decision_date'] ?><b>{{ block.decision_date }}</b><?= $lang['decision_org'] ?><b>{{ block.decision_org }}</b>.</h5>
+    
+    <p><?= $lang['ip_prefix'] ?>{{ block.ips.length > 1 ? '<?= $lang['ip_plural'] ?>' : '' }} <b>{{ block.ips.join(', ') }}</b><span v-if="block.domains.length">{{ block.urls.length ? ', ' : '<?= $lang['and'] ?>' }} <?= $lang['domain_prefix'] ?>{{ block.domains.length > 1 ? '<?= $lang['domain_plural'] ?>' : '' }} <b>{{ block.domains.join(', ') }}</b></span><span v-if="block.urls.length"><?= $lang['and'] . $lang['url_prefix'] ?>{{ block.urls.length > 1 ? '<?= $lang['url_plural'] ?>' : '<?= $lang['url_singular'] ?>' }} <b>{{ block.urls.join(', ') }}</b></span>.</p>
+  </div>
+</script>
+<script type="text/javascript">
 
 function debounce(func, wait, immediate) {
   var timeout;
@@ -263,6 +260,12 @@ function debounce(func, wait, immediate) {
     if (callNow) func.apply(context, args);
   };
 };
+
+Vue.component('block-details', {
+  props: ['block'],
+  template: '#block-info-template'
+});
+
 var app = new Vue({
   el: '#app',
   data: function() {
