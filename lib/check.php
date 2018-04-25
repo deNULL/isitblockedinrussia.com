@@ -101,7 +101,7 @@
           $url = 'http://' . $domain . '/';
         }
       } else {
-        $exact_scheme = parse_url($exact, PHP_URL_SCHEME);
+        $exact_scheme = parse_url($url, PHP_URL_SCHEME);
         if (!$exact_scheme) {
           $url = 'http://' . $url;
         }

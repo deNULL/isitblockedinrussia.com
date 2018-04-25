@@ -3,7 +3,7 @@
   ini_set('display_errors', true);
   error_reporting(E_ALL);
 
-  define('__ROOT__', dirname(__FILE__) . '/../..');
+  define('__ROOT__', dirname(__FILE__) . '/..');
   require_once(__ROOT__.'/config/mysql.php');
   require_once(__ROOT__.'/lib/common.php');
 
