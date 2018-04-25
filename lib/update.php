@@ -35,10 +35,21 @@
     $decision_org = mb_convert_encoding($components[3], 'utf-8', 'windows-1251');
     $decision_num = mb_convert_encoding($components[4], 'utf-8', 'windows-1251');
     $decision_date = $components[5];
+    
+    if ($domain == '') {
+      $domain = null;
+    }
+    if ($url == '' || $url == 'http://' || $url == 'https://') {
+      $url = null;
+    }
 
     foreach ($ips as $j => $ip) {
       if (trim($ip) == '') {
-        $ip = $domain;
+        if ($domain && (count(explode('.', $domain)) == 4)) {
+          $ip = $domain;
+        } else {
+          $ip = null;
+        }
       }
       $pair = explode('/', $ip);
       $ipFirst = ip2long($pair[0]);
