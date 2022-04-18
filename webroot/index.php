@@ -131,7 +131,7 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="<?= $lang['title'] ?>">
-    <meta property="og:image" content="hhttps://vk.com/images/gift/952/512.png">
+    <meta property="og:image" content="https://vk.com/images/gift/952/512.png">
     <meta property="og:site_name" content="<?= $lang['title'] ?>">
     <meta property="og:description" content="<?= $lang['desc'] ?>">
     <meta property="twitter:title" content="<?= $lang['title'] ?>">
